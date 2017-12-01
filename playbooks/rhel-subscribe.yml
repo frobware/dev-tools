@@ -1,0 +1,19 @@
+---
+- hosts: all
+  serial: 1
+  tasks:
+  - name: 
+    command: "subscription-manager register --username {{ username }} --password {{ password }}"
+    retries: 3
+    ignore_errors: true
+  - name: Attach to Employee SKU Virtual Pool
+    command: "subscription-manager subscribe --pool {{ pool }}"
+    retries: 3
+    ignore_errors: true
+  - name: Disable all repositories
+    command: subscription-manager repos --disable="*"
+  - name: Enable RHEL repositories
+    command: subscription-manager repos \
+               --enable="rhel-7-server-rpms" \
+               --enable="rhel-7-server-extras-rpms" \
+               --enable="rhel-7-fast-datapath-rpms"

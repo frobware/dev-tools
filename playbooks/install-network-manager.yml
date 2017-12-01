@@ -1,0 +1,14 @@
+---
+- hosts: all
+  tasks:
+  - name: Install NetworkManager
+    yum: name=NetworkManager state=present
+  - name: Disable network service
+    systemd: name=network enabled=no
+  - name: Enable NetworkManager service
+    systemd: name=NetworkManager enabled=yes
+  - name: Reboot server
+    command: /usr/sbin/reboot
+    async: 0
+    poll: 0
+    ignore_errors: true
