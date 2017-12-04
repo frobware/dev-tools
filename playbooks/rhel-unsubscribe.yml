@@ -2,6 +2,6 @@
 - hosts: all
   serial: 1
   tasks:
-  - name: 
-    command: "subscription-manager remove --all
+  - name: Unregister node
+    command: "subscription-manager remove --all"
     ignore_errors: true

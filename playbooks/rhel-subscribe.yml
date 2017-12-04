@@ -2,7 +2,7 @@
 - hosts: all
   serial: 1
   tasks:
-  - name: 
+  - name: Register node
     command: "subscription-manager register --username {{ username }} --password {{ password }}"
     retries: 3
     ignore_errors: true
