@@ -1,0 +1,19 @@
+---
+- hosts: all
+  tasks:
+  - debug: msg="{{ config_file }}"
+  - include_vars: "{{ config_file }}"
+  - name: "Print out clouds variable"
+    debug: msg="{{ clouds|default('No clouds found') }}"
+  - set_fact:
+      os_auth:
+        auth_url: "{{ clouds.devstack.auth.auth_url }}"
+        username: "{{ clouds.devstack.auth.username }}"
+        password: "{{ clouds.devstack.auth.password }}"
+        project_name: "{{ clouds.devstack.auth.project_name }}"
+  - name: Delete instances
+    os_server:
+       state: absent
+       auth: "{{ os_auth }}"
+       name: "{{ item.name }}.{{ domain }}"
+    with_items: "{{ servers }}"
