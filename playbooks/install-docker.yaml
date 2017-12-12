@@ -1,0 +1,24 @@
+---
+- hosts: all
+  tasks:
+  - name: Install docker
+    yum:
+      name: docker
+      state: present
+  - name: Disable thin pool LVM storage
+    lineinfile:
+      path: /etc/sysconfig/docker-storage-setup
+      line: CONTAINER_THINPOOL=docker-pool
+      state: absent
+  - name: Enable overlay2 storage
+    lineinfile:
+      path: /etc/sysconfig/docker-storage-setup
+      line: STORAGE_DRIVER=overlay2
+  - name: Enable docker service
+    systemd:
+      name: docker
+      enabled: yes
+  - name: Start docker service
+    systemd:
+      name: docker
+      state: started
