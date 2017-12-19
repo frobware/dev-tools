@@ -6,8 +6,13 @@
       - timed: 'H 2 * * *'
     publishers:
       - archive:
-          artifacts: '/tmp/artifacts/* /tmp/e2e_node* /tmp/run_local*'
+          artifacts: 'artifacts/*'
+    wrappers:
+      - ssh-agent-credentials:
+          users:
+            - e2e-node-root
     builders:
-      - ssh-builder:
-         ssh-user-ip: root@e2e-node.lab.variantweb.net:22
-         command: ./dev-tools/scripts/e2e-node.sh {focus}
+      - shell: |
+          ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no dev-tools/scripts/e2e-node.sh {focus}
+          scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r artifacts artifacts
+
