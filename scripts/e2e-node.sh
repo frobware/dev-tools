@@ -1,18 +1,23 @@
 #/bin/bash
 
+FOCUS=
+if [ ! -z "$1" ]; then
+	FOCUS="$1"
+fi
+
 set -xeuo pipefail
 
 GOVERSION=1.9.2
 
 cd $HOME
 yum install gcc -y
-rm -rf /tmp/artifacts/* /tmp/e2e_node* /tmp/run_local*
+rm -rf /tmp/artifacts/* /tmp/e2e_node* /tmp/run_local* artifacts/
 if [ ! -d "go$GOVERSION" ]; then
-        curl -OL https://storage.googleapis.com/golang/go$GOVERSION.linux-amd64.tar.gz
-        mkdir $PWD/go$GOVERSION
-        pushd $PWD/go$GOVERSION
-        tar -xzf ../go$GOVERSION.linux-amd64.tar.gz
-        popd
+	curl -OL https://storage.googleapis.com/golang/go$GOVERSION.linux-amd64.tar.gz
+	mkdir $PWD/go$GOVERSION
+	pushd $PWD/go$GOVERSION
+	tar -xzf ../go$GOVERSION.linux-amd64.tar.gz
+	popd
 fi
 GOROOT=$PWD/go$GOVERSION/go
 PATH=$GOROOT/bin:$PATH
@@ -23,8 +28,12 @@ if [ ! -d kubernetes ]; then
 fi
 pushd kubernetes
 git checkout master
-git pull
-git status
+git fetch
+git reset --hard origin/master
 git clean -fdx
-echo FOCUS=$1
-make test-e2e-node TEST_ARGS='--report-dir=/tmp/artifacts --kubelet-flags="--cgroup-driver=systemd"' FOCUS=$1
+echo FOCUS=$FOCUS
+make test-e2e-node TEST_ARGS='--report-dir=/tmp/artifacts --kubelet-flags="--cgroup-driver=systemd"' FOCUS=$FOCUS
+popd
+popd
+mkdir -p artifacts
+cp -r /tmp/artifacts/* /tmp/e2e_node* /tmp/run_local* artifacts/
