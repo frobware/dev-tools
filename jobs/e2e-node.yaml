@@ -1,0 +1,9 @@
+- project:
+    name: e2e-node
+    jobs:
+      - 'e2e-node-{name}':
+          name: full
+          focus: ''
+      - 'e2e-node-{name}':
+          name: conformance
+          focus: \[Conformance\]

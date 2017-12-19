@@ -1,0 +1,17 @@
+- job-template:
+    name: 'e2e-node-{name}'
+    description: 'E2E Node Test'
+    project-type: freestyle
+    triggers:
+      - timed: 'H 2 * * *'
+    publishers:
+      - archive:
+          artifacts: '/tmp/artifacts/* /tmp/e2e_node* /tmp/run_local*'
+    properties:
+      - inject:
+          properties-content: |
+            FOCUS={focus} 
+    builders:
+      - ssh-builder:
+         ssh-user-ip: root@e2e-node.lab.variantweb.net:22
+         command: ./dev-tools/scripts/e2e-node.sh
