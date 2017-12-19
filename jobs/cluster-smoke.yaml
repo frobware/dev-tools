@@ -2,12 +2,12 @@
     name: cluster-smoke
     jobs:
       - '{name}-cluster-smoke':
-          name: us-west-1
+          name: starter-us-west-1
       - '{name}-cluster-smoke':
-          name: us-west-2
+          name: starter-us-west-2
       - '{name}-cluster-smoke':
-          name: us-east-1
+          name: starter-us-east-1
       - '{name}-cluster-smoke':
-          name: us-east-2
+          name: starter-us-east-2
       - '{name}-cluster-smoke':
-          name: ca-central-1
+          name: starter-ca-central-1
