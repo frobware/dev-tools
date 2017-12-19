@@ -26,4 +26,5 @@ git checkout master
 git pull
 git status
 git clean -fdx
+echo FOCUS=$FOCUS
 make test-e2e-node TEST_ARGS='--report-dir=/tmp/artifacts --kubelet-flags="--cgroup-driver=systemd"'
