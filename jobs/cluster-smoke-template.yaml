@@ -14,9 +14,8 @@
          timeout: 20
     wrappers:
     - credentials-binding:
-      - username-password-separated:
+      - text:
           credential-id: '{name}'
-          username: USERNAME
-          password: TOKEN
+          variable: TOKEN
     builders:
       - shell: './scripts/cluster-smoke-test.sh {name}'
