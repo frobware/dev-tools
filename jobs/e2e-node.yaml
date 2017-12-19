@@ -6,4 +6,4 @@
           focus: ''
       - 'e2e-node-{name}':
           name: conformance
-          focus: \[Conformance\]
+          focus: \\\[Conformance\\\]
