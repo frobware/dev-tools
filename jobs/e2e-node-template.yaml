@@ -14,5 +14,5 @@
     builders:
       - shell: |
           ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@e2e-node.lab.variantweb.net dev-tools/scripts/e2e-node.sh {name}
-          scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@e2e-node.lab.variantweb.net -r /tmp/artifacts artifacts
+          scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r root@e2e-node.lab.variantweb.net:/tmp/artifacts artifacts
 
