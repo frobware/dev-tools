@@ -7,11 +7,7 @@
     publishers:
       - archive:
           artifacts: '/tmp/artifacts/* /tmp/e2e_node* /tmp/run_local*'
-    properties:
-      - inject:
-          properties-content: |
-            FOCUS={focus} 
     builders:
       - ssh-builder:
          ssh-user-ip: root@e2e-node.lab.variantweb.net:22
-         command: ./dev-tools/scripts/e2e-node.sh
+         command: ./dev-tools/scripts/e2e-node.sh {focus}
