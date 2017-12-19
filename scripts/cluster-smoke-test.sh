@@ -4,19 +4,23 @@ set -xeuo pipefail
 
 PROJECT=sjenning-jenkins
 
+if [ -z "$1" ]; then
+	echo "required cluster param not provided"
+	echo "usage: $0 cluster"
+    exit 1
+fi
+APISERVER="https://api.${1}.openshift.com:443"
+
 cleanup() {
 	echo "starting cleanup..."
-	
 	oc describe pod
 	oc get build ruby-ex-1
 	oc get dc ruby-ex
 	oc delete project $PROJECT
-    echo "CLUSTER $cluster"
-    rm -f $KUBECONFIG
+    echo "APISERVER $APISERVER"
 }
 
 failure() {
-	echo $1
 	cleanup
 	exit 1
 }
@@ -49,10 +53,6 @@ wait_for() {
 	return 1
 }
 
-if [ -z "$cluster" ]; then
-	echo "required cluster param not set"
-    exit 1
-fi
 if [ ! -e oc ]; then
 	wget https://github.com/openshift/origin/releases/download/v3.7.0-rc.0/openshift-origin-client-tools-v3.7.0-rc.0-e92d5c5-linux-64bit.tar.gz
     tar xf openshift-origin-client-tools-v3.7.0-rc.0-e92d5c5-linux-64bit.tar.gz
@@ -62,10 +62,7 @@ if [ ! -e oc ]; then
     rm -rf openshift-origin-client-tools-v3.7.0-rc.0-e92d5c5-linux-64bit
 fi
 export PATH=$PWD:$PATH
-cp $KUBECONFIG_RO .
-export KUBECONFIG=$(basename $KUBECONFIG_RO)
-chmod 600 $KUBECONFIG
-oc config use-context $cluster
+oc login $APISERVER --token=$TOKEN
 ! oc get project $PROJECT &>/dev/null || reset_project $PROJECT || failure "Project deletion failed"
 oc new-project $PROJECT
 oc new-app centos/ruby-22-centos7~https://github.com/openshift/ruby-ex.git
