@@ -62,7 +62,7 @@ if [ ! -e oc ]; then
     rm -rf openshift-origin-client-tools-v3.7.0-rc.0-e92d5c5-linux-64bit
 fi
 export PATH=$PWD:$PATH
-oc login $APISERVER --token=$TOKEN
+oc login $APISERVER --token=$TOKEN >/dev/null
 ! oc get project $PROJECT &>/dev/null || reset_project $PROJECT || failure "Project deletion failed"
 oc new-project $PROJECT
 oc new-app centos/ruby-22-centos7~https://github.com/openshift/ruby-ex.git
