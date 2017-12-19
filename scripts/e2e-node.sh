@@ -1,9 +1,10 @@
 #/bin/bash
 
 FOCUS=
-if [ ! -z "$1" ]; then
-	FOCUS="$1"
+if [ "$1" == "conformance" ]; then
+	FOCUS="\[Conformance\]"
 fi
+echo FOCUS=$FOCUS
 
 set -xeuo pipefail
 
@@ -31,9 +32,4 @@ git checkout master
 git fetch
 git reset --hard origin/master
 git clean -fdx
-echo FOCUS=$FOCUS
 make test-e2e-node TEST_ARGS='--report-dir=/tmp/artifacts --kubelet-flags="--cgroup-driver=systemd"' FOCUS=$FOCUS
-popd
-popd
-mkdir -p artifacts
-cp -r /tmp/artifacts/* /tmp/e2e_node* /tmp/run_local* artifacts/
