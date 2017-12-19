@@ -1,0 +1,13 @@
+- project:
+    name: cluster-smoke
+    jobs:
+      - '{name}-cluster-smoke':
+          name: us-west-1
+      - '{name}-cluster-smoke':
+          name: us-west-2
+      - '{name}-cluster-smoke':
+          name: us-east-1
+      - '{name}-cluster-smoke':
+          name: us-east-2
+      - '{name}-cluster-smoke':
+          name: ca-central-1
