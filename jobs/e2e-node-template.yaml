@@ -7,12 +7,15 @@
     publishers:
       - archive:
           artifacts: 'artifacts/*'
+      - junit:
+          results: artifacts/*.xml
     wrappers:
       - ssh-agent-credentials:
           users:
             - e2e-node-root
     builders:
       - shell: |
+          rm -rf artifacts
           ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@e2e-node.lab.variantweb.net dev-tools/scripts/e2e-node.sh {name}
           scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r root@e2e-node.lab.variantweb.net:/tmp/artifacts artifacts
 
