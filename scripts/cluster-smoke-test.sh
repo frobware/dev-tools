@@ -13,6 +13,7 @@ APISERVER="https://api.${1}.openshift.com:443"
 
 cleanup() {
 	echo "starting cleanup..."
+	set +e
 	oc describe pod
 	oc get build ruby-ex-1
 	oc get dc ruby-ex
