@@ -1,0 +1,5 @@
+---
+- hosts: all
+  tasks:
+  - name: Wait for instances to be ready
+    wait_for_connection:
