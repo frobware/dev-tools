@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+  - name: Reboot server
+    command: reboot
+    async: 0
+    poll: 0
+    ignore_errors: true
