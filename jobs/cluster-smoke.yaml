@@ -10,4 +10,6 @@
       - '{name}-cluster-smoke':
           name: starter-us-east-2
       - '{name}-cluster-smoke':
+          name: starter-us-east-2a
+      - '{name}-cluster-smoke':
           name: starter-ca-central-1
