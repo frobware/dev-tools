@@ -8,7 +8,7 @@ echo FOCUS=$FOCUS
 
 set -xeuo pipefail
 
-GOVERSION=1.10.1
+GOVERSION=1.10.2
 
 cd $HOME
 yum install gcc -y
